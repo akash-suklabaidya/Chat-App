@@ -1,4 +1,7 @@
 package com.ChatApp.Chat.App.models;
 
-public class Enum {
+public enum Status {
+
+    ONLINE,OFFLINE;
+
 }
