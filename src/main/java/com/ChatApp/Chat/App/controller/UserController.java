@@ -9,6 +9,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,6 +33,12 @@ public class UserController {
     public User disconnectUser(@Payload User user) {
         userService.disconnect(user);
         return user;
+    }
+
+    @PostMapping("/users/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        User createdUser = userService.saveUser(user);
+        return ResponseEntity.ok(createdUser);
     }
 
     @GetMapping("/users")

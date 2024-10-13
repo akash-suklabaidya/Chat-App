@@ -18,6 +18,10 @@ public class UserService {
     private UserRepository userRepository;
 
     public User saveUser(User user) {
+//        user.setStatus(Status.ONLINE);
+        User savedUser = new User();
+        savedUser.setUsername(user.getUsername());
+        savedUser.setFullname(user.getFullname());
         user.setStatus(Status.ONLINE);
         return userRepository.save(user);
     }
@@ -35,4 +39,10 @@ public class UserService {
     public List<User> findConnectedUsers(){
         return userRepository.findAllByStatus(Status.ONLINE);
     }
+
+    public  User findByUserId(String userId){
+        return userRepository.findById(userId).orElse(null);
+    }
+
+
 }

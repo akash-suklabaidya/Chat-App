@@ -20,23 +20,28 @@ public class ChatMessageService {
     private ChatRoomService chatRoomService;
 
     public ChatMessage save(ChatMessage chatMessage) {
-        var chatId=chatRoomService.getChatRoomId(chatMessage.getSenderId()
-                ,chatMessage.getReceiverId(),true
-        ).orElseThrow();
-        chatMessage.setChatId(chatId);
+        if (chatMessage.getGroupId() == null) {
+            String chatId = chatRoomService.getChatRoomId(chatMessage.getSenderId(), chatMessage.getReceiverId(), true)
+                    .orElseThrow();
+            chatMessage.setChatId(chatId);
+        }
         return chatMessageRepository.save(chatMessage);
     }
 
     public List<ChatMessage> findChatMessages(
             String senderId,String receiverId
     ){
-        var chatId=chatRoomService.getChatRoomId(
+        String chatId=chatRoomService.getChatRoomId(
                 senderId,
                 receiverId,false
-        );
-          return chatId.map(chatMessageRepository::findByChatId)
-                  .orElse(new ArrayList<>());
+        ).orElse(null);
+//          return chatId.map(chatMessageRepository::findByChatId)
+//                  .orElse(new ArrayList<>());
+        return chatMessageRepository.findByChatId(chatId);
     }
 
+    public List<ChatMessage> findGroupMessages(String groupId) {
+        return chatMessageRepository.findByGroupId(groupId);
+    }
 
 }

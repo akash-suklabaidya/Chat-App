@@ -5,7 +5,6 @@ import com.ChatApp.Chat.App.models.User;
 import com.ChatApp.Chat.App.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -28,18 +27,18 @@ public class GroupController {
         return ResponseEntity.ok(groupService.createGroup(group));
     }
 
-    @PutMapping("/{groupId}/deleteGroup")
+    @DeleteMapping("/{groupId}/deleteGroup")
     public ResponseEntity<?> deleteGroup(@PathVariable String groupId){
         return ResponseEntity.ok(groupService.deleteGroup(groupId));
     }
 
-    @PutMapping("/{groupId}/addMember")
-    public ResponseEntity<Group> addMember(@PathVariable String groupId, @RequestBody String userId){
+    @PostMapping("/{groupId}/{userId}")
+    public ResponseEntity<Group> addMember(@PathVariable String groupId, @PathVariable String userId){
         return ResponseEntity.ok(groupService.addMember(groupId, userId));
     }
 
-    @PutMapping("{groupId}/removeMember")
-    public ResponseEntity<Group> removeMember(@PathVariable String groupId, @RequestBody String userId){
+    @DeleteMapping("{groupId}/{userId}")
+    public ResponseEntity<Group> removeMember(@PathVariable String groupId, @PathVariable String userId){
         return ResponseEntity.ok(groupService.removeMember(groupId, userId));
     }
 

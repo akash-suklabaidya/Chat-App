@@ -1,6 +1,7 @@
 package com.ChatApp.Chat.App.service;
 
 import com.ChatApp.Chat.App.models.Group;
+import com.ChatApp.Chat.App.models.User;
 import com.ChatApp.Chat.App.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class GroupService {
     @Autowired
     private  GroupRepository groupRepository;
+
+    @Autowired
+    private  UserService userService;
 
     public Group createGroup(Group group) {
         group.setCreatedAt(new Date());
@@ -42,13 +46,15 @@ public class GroupService {
     public Group addMember(String groupId, String userId) {
         Group group=groupRepository.findById(groupId)
                 .orElseThrow();
-        group.getMembers().add(userId);
+        User user=userService.findByUserId(userId);
+        group.getMembers().add(user);
         return groupRepository.save(group);
     }
 
     public Group removeMember(String groupId, String userId) {
         Group group=groupRepository.findById(groupId).orElseThrow();
-        group.getMembers().remove(userId);
+        User user=userService.findByUserId(userId);
+        group.getMembers().remove(user);
         return groupRepository.save(group);
     }
 

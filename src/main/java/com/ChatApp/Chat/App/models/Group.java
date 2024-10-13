@@ -2,6 +2,7 @@ package com.ChatApp.Chat.App.models;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ public class Group {
     private String groupId;
     private String groupName;
 //    private String createdBy;
-    private List<String> members = new ArrayList<>();
+    @DBRef
+    private List<User> members = new ArrayList<>();
     private Date createdAt;
     private Date updatedAt;
 
